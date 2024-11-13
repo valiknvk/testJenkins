@@ -1,4 +1,4 @@
-registryUrl = 'https://docker.valuesoft.site';
+registryUrl = 'https://docker.valuesoft.site'
 class DockerChanges {
     static Binding context
     static String getRegistry() {
