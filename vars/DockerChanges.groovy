@@ -1,5 +1,5 @@
 class DockerChanges {
-    String registryUrl = 'https://docker.valuesoft.site'
+    String registryUrl = 'https://docker.valuesoft.site';
     static String getRegistry() {
     	return registryUrl;
     }
