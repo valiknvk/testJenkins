@@ -3,7 +3,7 @@ class DockerChanges {
     String getRegistry() {
     	return registryUrl;
     }
-    static Boolean checkImageExists(steps, imageName) {
+    Boolean checkImageExists(steps, imageName) {
 	boolean check = steps.docker.withRegistry(registryUrl, 'docker') { 
 		steps.sh(script: "docker manifest inspect docker.valuesoft.site/${imageName}", returnStatus: true);
 	}
