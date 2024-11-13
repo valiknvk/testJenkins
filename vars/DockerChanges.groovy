@@ -1,7 +1,8 @@
+registryUrl = 'https://docker.valuesoft.site';
 class DockerChanges {
-    String registryUrl = 'https://docker.valuesoft.site';
-    String getRegistry() {
-    	return registryUrl;
+    static Binding context
+    static String getRegistry() {
+    	return context.registryUrl;
     }
     Boolean checkImageExists(steps, imageName) {
 	boolean check = steps.docker.withRegistry(registryUrl, 'docker') { 
