@@ -55,7 +55,7 @@ pipeline {
                                 echo "Image exists"
                             }
                             sh 'printenv'
-                            //sh ("sleep 10")
+                            sh ("sleep 10")
                     }
                 //echo "${env.IMAGE_EXISTS}"
                 //echo "${test}"
