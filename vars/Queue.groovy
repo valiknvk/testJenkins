@@ -8,4 +8,5 @@ class Queue {
 	queue.getItems().stream()
         .filter(item -> item.getTask().getName().contains("booker/master"))
         .forEach(item -> queue.cancel(item.getTask()));
+    }
 }
