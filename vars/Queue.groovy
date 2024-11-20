@@ -1,8 +1,11 @@
-class Queue {
-	void clean() {
-    		def queue = Jenkins.instance.queue
-    		queue.items.findAll { it.task.name.contains('booker/master') }.each {
-			queue.cancel(it.task) 
-    		}
-	}
+import jenkins.model.Jenkins;
+import hudson.model.Queue;
+
+class QueueHandler {
+    void clean() {
+        Queue queue = Jenkins.getInstance().getQueue();
+        queue.getItems().stream()
+            .filter(item -> item.getTask().getName().contains("part"))
+            .forEach(item -> queue.cancel(item.getTask()));
+    }
 }
