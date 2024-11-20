@@ -1,4 +1,3 @@
-package com.forkshunter.jenkins
 import jenkins.model.Jenkins;
 import hudson.model.Queue;
 
