@@ -1,4 +1,4 @@
-class QueueHandler {
+class Queue {
     static void clean() {
         Queue queue = Jenkins.getInstance().getQueue();
         queue.getItems().stream()
