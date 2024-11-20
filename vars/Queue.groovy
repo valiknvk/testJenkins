@@ -1,6 +1,3 @@
-import jenkins.model.Jenkins;
-import hudson.model.Queue;
-
 class QueueHandler {
     static void clean() {
         Queue queue = Jenkins.getInstance().getQueue();
