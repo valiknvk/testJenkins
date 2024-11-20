@@ -1,10 +1,10 @@
-import jenkins.model.Jenkins;
-import org.jenkinsci.plugins.workflow.support.steps.ExecutorStepExecution;
+//import jenkins.model.Jenkins;
+//import org.jenkinsci.plugins.workflow.support.steps.ExecutorStepExecution;
 
-import java.util.List;
+//import java.util.List;
 
-public class Queue {
-    public static List<?> printQueue() {
+class Queue {
+    static List<?> printQueue() {
         var queue = Jenkins.get().getQueue();
         //List<?> items = queue.getItems();
         return queue.getItems();
