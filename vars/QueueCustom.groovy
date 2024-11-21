@@ -1,4 +1,4 @@
-import jenkins.model.*
+import jenkins.model.Jenkins
 class QueueCustom {
 	static void cleanQueueCustom() {
     		def queue = Jenkins.instance.queue
