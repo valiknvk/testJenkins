@@ -2,30 +2,25 @@ import jenkins.model.*
 
 class BazelCleaner {
 
-    // Paths to Bazel cache directories
-    static final List<String> BAZEL_CACHE_PATHS = [
-        '$HOME/.bzl_cache',
-        '$HOME/.cache/bazel'
-    ]
-
     // Get all agents (nodes)
     static List getAgents() {
-        return Jenkins.instance.nodes
+        def agents = Jenkins.instance.nodes
+        println "Found agents: ${agents*.nodeName}"
+        return agents
     }
 
     // Check if an agent is online
     static boolean isAgentOnline(def agent) {
-        if (agent?.toComputer()) {
-            return agent.toComputer().isOnline()
-        } else {
-            throw new IllegalArgumentException("Invalid agent provided: ${agent}")
-        }
+        def isOnline = agent?.toComputer()?.isOnline() ?: false
+        println "Agent ${agent.nodeName} is online: ${isOnline}"
+        return isOnline
     }
 
     // Get the computer object of an agent
     static def getComputer(def agent) {
         def computer = agent?.toComputer()
         if (computer) {
+            println "Computer for agent ${agent.nodeName} obtained."
             return computer
         } else {
             throw new IllegalArgumentException("Could not get computer for agent: ${agent.nodeName}")
@@ -35,25 +30,25 @@ class BazelCleaner {
     // Get the name of the agent (node)
     static String getNodeName(def agent) {
         if (agent?.nodeName) {
+            println "Agent name: ${agent.nodeName}"
             return agent.nodeName
         } else {
-            throw new IllegalArgumentException("Invalid agent provided: ${agent}")
+            throw new IllegalArgumentException("Invalid agent provided")
         }
     }
 
     // Check if the agent's computer is idle
     static boolean isComputerIdle(def computer) {
-        if (computer) {
-            return computer.countBusy() == 0
-        } else {
-            throw new IllegalArgumentException("Invalid computer provided")
-        }
+        def isIdle = computer?.countBusy() == 0
+        println "Computer is idle: ${isIdle}"
+        return isIdle
     }
 
     // Set an agent temporarily offline
     static void setTempOffline(def computer, String message = "Cleanup in progress") {
         if (computer) {
             computer.setTemporarilyOffline(true, new hudson.slaves.OfflineCause.ByCLI(message))
+            println "Computer set temporarily offline with message: ${message}"
         } else {
             throw new IllegalArgumentException("Invalid computer provided")
         }
@@ -63,6 +58,7 @@ class BazelCleaner {
     static void returnOnline(def computer) {
         if (computer) {
             computer.setTemporarilyOffline(false, null)
+            println "Computer brought back online."
         } else {
             throw new IllegalArgumentException("Invalid computer provided")
         }
@@ -70,7 +66,8 @@ class BazelCleaner {
 
     // Clean Bazel cache directories
     static void cleanBazelCache() {
-        BAZEL_CACHE_PATHS.each { path ->
+        def cachePaths = ['$HOME/.bzl_cache', '$HOME/.cache/bazel']
+        cachePaths.each { path ->
             sh """
                 if [ -d "${path}" ]; then
                     echo "Cleaning cache at ${path}..."
