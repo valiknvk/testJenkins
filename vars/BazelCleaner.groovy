@@ -4,8 +4,8 @@ class BazelCleaner {
 
     // Paths to Bazel cache directories
     static final List<String> BAZEL_CACHE_PATHS = [
-        '~/home/.bzl_cache',
-        '~/home/.cache/bazel'
+        '$HOME/.bzl_cache',
+        '$HOME/.cache/bazel'
     ]
 
     // Get all agents (nodes)
@@ -71,14 +71,13 @@ class BazelCleaner {
     // Clean Bazel cache directories
     static void cleanBazelCache() {
         BAZEL_CACHE_PATHS.each { path ->
-            def expandedPath = path.replace('~', System.getProperty("user.home")) 
             sh """
-                if [ -d "${expandedPath}" ]; then
-                    echo "Cleaning cache at ${expandedPath}..."
-                    find ${expandedPath} -type d -mtime +7 -exec rm -rf {} +
-                    echo "Cache cleaned at ${expandedPath}."
+                if [ -d "${path}" ]; then
+                    echo "Cleaning cache at ${path}..."
+                    find ${path} -type d -mtime +7 -exec rm -rf {} +
+                    echo "Cache cleaned at ${path}."
                 else
-                    echo "Cache directory ${expandedPath} does not exist. Skipping."
+                    echo "Cache directory ${path} does not exist. Skipping."
                 fi
             """
         }
