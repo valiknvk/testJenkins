@@ -2,6 +2,12 @@ import jenkins.model.*
 
 class BazelCleaner {
 
+    // Paths to Bazel cache directories
+    static final List<String> BAZEL_CACHE_PATHS = [
+        '~/home/.bzl_cache',
+        '~/home/.cache/bazel'
+    ]
+
     // Get all agents (nodes)
     static List getAgents() {
         return Jenkins.instance.nodes
@@ -59,6 +65,22 @@ class BazelCleaner {
             computer.setTemporarilyOffline(false, null)
         } else {
             throw new IllegalArgumentException("Invalid computer provided")
+        }
+    }
+
+    // Clean Bazel cache directories
+    static void cleanBazelCache() {
+        BAZEL_CACHE_PATHS.each { path ->
+            def expandedPath = path.replace('~', System.getProperty("user.home")) 
+            sh """
+                if [ -d "${expandedPath}" ]; then
+                    echo "Cleaning cache at ${expandedPath}..."
+                    find ${expandedPath} -type d -mtime +7 -exec rm -rf {} +
+                    echo "Cache cleaned at ${expandedPath}."
+                else
+                    echo "Cache directory ${expandedPath} does not exist. Skipping."
+                fi
+            """
         }
     }
 }
