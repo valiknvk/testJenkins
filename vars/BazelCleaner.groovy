@@ -66,7 +66,8 @@ class BazelCleaner {
 
     // Clean Bazel cache directories
     static void cleanBazelCache() {
-        def cachePaths = ['$HOME/.bzl_cache', '$HOME/.cache/bazel']
+        //def cachePaths = ['$HOME/.bzl_cache', '$HOME/.cache/bazel']
+        def cachePaths = ['/var/lib/jenkins/.cache']        
         cachePaths.each { path ->
             sh """
                 if [ -d "${path}" ]; then
